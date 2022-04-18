@@ -7,9 +7,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import by.hometrainng.listapi.databinding.ItemBinding
+import by.hometrainng.listapi.databinding.ItemCharacterBinding
 import by.hometrainng.listapi.databinding.LoadingItemBinding
 import by.hometrainng.listapi.model.ListElement
+import coil.load
 
 
 class ItemAdapter(
@@ -28,8 +29,11 @@ class ItemAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
                     TYPE_CHARACTER -> {
-                        CharacterViewHolder(binding = ItemBinding.inflate(layoutInflater, parent, false))
-                    }
+                        CharacterViewHolder(
+                            binding = ItemCharacterBinding.inflate(layoutInflater, parent, false)
+                        ) {
+
+                        }}
                     TYPE_LOADING -> {
                         LoadingViewHolder(binding = LoadingItemBinding.inflate(layoutInflater, parent, false))
                     }
@@ -63,11 +67,18 @@ class ItemAdapter(
 }
 
 class CharacterViewHolder(
-    private val binding: ItemBinding
+    private val binding: ItemCharacterBinding,
+    private val onClicked: (ListElement.CharacterItem) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-
     fun bind (item: ListElement.CharacterItem) {
-        binding.itemText.text = item.login
+        with(binding) {
+            image.load(item.imageURL)
+            itemText.text = item.name
+
+            root.setOnClickListener {
+                onClicked(item)
+            }
+        }
     }
 }
 

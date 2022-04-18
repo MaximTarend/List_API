@@ -6,6 +6,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +14,6 @@ import by.hometrainng.listapi.adapter.ItemAdapter
 import by.hometrainng.listapi.addPaginationScrollListener
 import by.hometrainng.listapi.addSpaceDecoration
 import by.hometrainng.listapi.databinding.FragmentListBinding
-import by.hometrainng.listapi.model.Character
 import by.hometrainng.listapi.model.ListElement
 import by.hometrainng.listapi.retrofit.FinalSpaceService
 import retrofit2.Call
@@ -30,7 +30,7 @@ class ListFragment: Fragment() {
     }
 
     private var isLoading = false
-    private var currentCall: Call<List<Character>>? = null
+    private var currentCall: Call<List<ListElement.CharacterItem>>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,41 +58,41 @@ class ListFragment: Fragment() {
             recyclerView.layoutManager = layoutManager
 
             recyclerView.addSpaceDecoration(DECORATION_SPACE)
-            recyclerView.addPaginationScrollListener(layoutManager, 20) {
-                if (currentCall == null) {
-                    currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacters()
-                    currentCall?.enqueue(object : Callback<List<Character>> {
-                        override fun onResponse(
-                            call: Call<List<Character>>,
-                            response: Response<List<Character>>
-                        ) {
-                            val characters = response.body() ?: return
-                            // adapter.submitList(characters)
-                        }
+            recyclerView.addPaginationScrollListener(layoutManager, ITEMS_TO_LOAD) {
 
-                        override fun onFailure(call: Call<List<Character>>, t: Throwable) {
-                            currentCall = null
-                        }
-                    })
-                }
-
-                if (!isLoading) {
-                    isLoading = true
-                }
             }
-
-            adapter.submitList(
-                List(30) { ListElement.CharacterItem(it.toLong()) } + ListElement.Loading
-            )
+            if (currentCall == null) {
+                currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacters()
+                currentCall?.enqueue(object : Callback<List<ListElement.CharacterItem>> {
+                    override fun onResponse(
+                        call: Call<List<ListElement.CharacterItem>>,
+                        response: Response<List<ListElement.CharacterItem>>
+                    ) {
+                        if (response.isSuccessful) {
+                            val characters = response.body() ?: return
+                            adapter.submitList(characters)
+                            currentCall = null
+                        } else {
+                            Toast.makeText(context, "Response failure", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    override fun onFailure(call: Call<List<ListElement.CharacterItem>>, t: Throwable) {
+                        currentCall = null
+                        Toast.makeText(context, "Upload failure", Toast.LENGTH_SHORT).show()
+                    }
+                })
+            }
         }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        currentCall?.cancel()
         _binding = null
     }
 
     companion object {
         private const val DECORATION_SPACE = 20
+        private const val ITEMS_TO_LOAD = 20
     }
 }
