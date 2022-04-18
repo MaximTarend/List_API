@@ -20,7 +20,7 @@ class ItemAdapter(
 
     override fun getItemViewType(position: Int): Int {
         return when(getItem(position)) {
-            is ListElement.Character -> TYPE_CHARACTER
+            is ListElement.CharacterItem -> TYPE_CHARACTER
             ListElement.Loading -> TYPE_LOADING
         }
     }
@@ -40,7 +40,7 @@ class ItemAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val characterViewHolder =  holder as? CharacterViewHolder ?: return
-        val item = getItem(position) as? ListElement.Character ?: return
+        val item = getItem(position) as? ListElement.CharacterItem ?: return
         characterViewHolder.bind(item)
     }
 
@@ -66,7 +66,7 @@ class CharacterViewHolder(
     private val binding: ItemBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind (item: ListElement.Character) {
+    fun bind (item: ListElement.CharacterItem) {
         binding.itemText.text = item.login
     }
 }

@@ -2,7 +2,7 @@ package by.hometrainng.listapi.model
 
 sealed class ListElement {
 
-    data class Character(
+    data class CharacterItem(
         val id: Long = 111111,
         val login: String = "login"
             ): ListElement()
