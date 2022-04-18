@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import by.hometrainng.listapi.adapter.ItemAdapter
 import by.hometrainng.listapi.addSpaceDecoration
 import by.hometrainng.listapi.databinding.FragmentListBinding
+import by.hometrainng.listapi.model.ListElement
 
 class ListFragment: Fragment() {
 
@@ -49,6 +50,9 @@ class ListFragment: Fragment() {
 
             recyclerView.addSpaceDecoration(DECORATION_SPACE)
 
+            adapter.submitList(
+                List(30) { ListElement.Character(it.toLong()) } + ListElement.Loading
+            )
         }
     }
 

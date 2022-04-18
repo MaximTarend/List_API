@@ -39,9 +39,9 @@ class ItemAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder !is CharacterViewHolder) return
+        val characterViewHolder =  holder as? CharacterViewHolder ?: return
         val item = getItem(position) as? ListElement.Character ?: return
-        holder.bind(item)
+        characterViewHolder.bind(item)
     }
 
 
