@@ -14,7 +14,8 @@ import coil.load
 
 
 class ItemAdapter(
-    context: Context
+    context: Context,
+    private val onClicked: (ListElement.CharacterItem) -> Unit
 ): ListAdapter<ListElement, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
     private val layoutInflater = LayoutInflater.from(context)
@@ -30,10 +31,9 @@ class ItemAdapter(
         return when (viewType) {
                     TYPE_CHARACTER -> {
                         CharacterViewHolder(
-                            binding = ItemCharacterBinding.inflate(layoutInflater, parent, false)
-                        ) {
-
-                        }}
+                            binding = ItemCharacterBinding.inflate(layoutInflater, parent, false),
+                            onClicked = onClicked
+                        )}
                     TYPE_LOADING -> {
                         LoadingViewHolder(binding = LoadingItemBinding.inflate(layoutInflater, parent, false))
                     }

@@ -12,13 +12,19 @@
 
         <action
             android:id="@+id/to_character"
-            app:destination="@+id/item"/>
+            app:destination="@+id/character"/>
 
     </fragment>
 
     <fragment
         android:id="@+id/character"
+        android:name="by.hometrainng.listapi.fragments.CharacterFragment"
+        tools:layout="@layout/fragment_character">
 
-        tools:layout="@layout/fragment_character"/>
+        <argument
+            android:name="character_id"
+            app:argType="integer"/>
+
+    </fragment>
 
 </navigation>

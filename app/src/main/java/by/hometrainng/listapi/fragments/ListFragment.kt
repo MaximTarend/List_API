@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.os.postDelayed
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.hometrainng.listapi.adapter.ItemAdapter
 import by.hometrainng.listapi.addPaginationScrollListener
@@ -26,10 +27,15 @@ class ListFragment: Fragment() {
     private val binding get() = requireNotNull(_binding)
 
     private val adapter by lazy {
-        ItemAdapter(requireContext())
+        ItemAdapter(requireContext()) {
+            findNavController()
+                .navigate(
+                    ListFragmentDirections.toCharacter(it.id)
+                )
+        }
     }
 
-    private var isLoading = false
+//    private var isLoading = false
     private var currentCall: Call<List<ListElement.CharacterItem>>? = null
 
     override fun onCreateView(
