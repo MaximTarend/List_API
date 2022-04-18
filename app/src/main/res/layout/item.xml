@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    app:contentPadding="16dp"
+    app:contentPadding="@dimen/cardView_padding"
     android:id="@+id/item">
 
     <TextView
@@ -13,6 +13,6 @@
         android:layout_gravity="center_horizontal"
         android:id="@+id/item_text"
         tools:text="test"
-        android:textSize="30sp"/>
+        android:textSize="@dimen/item_text_size"/>
 
 </androidx.cardview.widget.CardView>

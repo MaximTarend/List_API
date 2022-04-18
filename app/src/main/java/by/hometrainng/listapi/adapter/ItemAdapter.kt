@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import by.hometrainng.listapi.databinding.ItemBinding
-import by.hometrainng.listapi.Character
+import by.hometrainng.listapi.model.Character
 
 class ItemAdapter(
     context: Context
