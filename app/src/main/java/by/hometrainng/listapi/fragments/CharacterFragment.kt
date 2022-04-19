@@ -6,7 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import androidx.navigation.ui.setupWithNavController
 import by.hometrainng.listapi.databinding.FragmentCharacterBinding
 import by.hometrainng.listapi.model.ListElement
 import by.hometrainng.listapi.retrofit.FinalSpaceService
@@ -36,7 +38,9 @@ class CharacterFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         with (binding) {
-            var characterId = args.characterId.toString()
+            val characterId = args.characterId.toString()
+
+            toolbarCharacter.setupWithNavController(findNavController())
 
             if (currentCall == null) {
                 currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacterDetails(characterId)
