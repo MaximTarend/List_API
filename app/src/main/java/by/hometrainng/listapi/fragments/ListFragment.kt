@@ -36,7 +36,7 @@ class ListFragment: Fragment() {
     }
 
 //    private var isLoading = false
-    private var currentCall: Call<List<ListElement.CharacterItem>>? = null
+    private var currentCall: Call<List<ListElement.Character>>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,10 +69,10 @@ class ListFragment: Fragment() {
             }
             if (currentCall == null) {
                 currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacters()
-                currentCall?.enqueue(object : Callback<List<ListElement.CharacterItem>> {
+                currentCall?.enqueue(object : Callback<List<ListElement.Character>> {
                     override fun onResponse(
-                        call: Call<List<ListElement.CharacterItem>>,
-                        response: Response<List<ListElement.CharacterItem>>
+                        call: Call<List<ListElement.Character>>,
+                        response: Response<List<ListElement.Character>>
                     ) {
                         if (response.isSuccessful) {
                             val characters = response.body() ?: return
@@ -82,7 +82,7 @@ class ListFragment: Fragment() {
                             Toast.makeText(context, "Response failure", Toast.LENGTH_SHORT).show()
                         }
                     }
-                    override fun onFailure(call: Call<List<ListElement.CharacterItem>>, t: Throwable) {
+                    override fun onFailure(call: Call<List<ListElement.Character>>, t: Throwable) {
                         currentCall = null
                         Toast.makeText(context, "Upload failure", Toast.LENGTH_SHORT).show()
                     }

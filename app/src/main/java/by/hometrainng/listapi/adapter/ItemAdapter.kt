@@ -15,14 +15,14 @@ import coil.load
 
 class ItemAdapter(
     context: Context,
-    private val onClicked: (ListElement.CharacterItem) -> Unit
+    private val onClicked: (ListElement.Character) -> Unit
 ): ListAdapter<ListElement, RecyclerView.ViewHolder>(DIFF_UTIL) {
 
     private val layoutInflater = LayoutInflater.from(context)
 
     override fun getItemViewType(position: Int): Int {
         return when(getItem(position)) {
-            is ListElement.CharacterItem -> TYPE_CHARACTER
+            is ListElement.Character -> TYPE_CHARACTER
             ListElement.Loading -> TYPE_LOADING
         }
     }
@@ -44,7 +44,8 @@ class ItemAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val characterViewHolder =  holder as? CharacterViewHolder ?: return
-        val item = getItem(position) as? ListElement.CharacterItem ?: return
+        val item = getItem(position) as? ListElement.Character
+            ?: return
         characterViewHolder.bind(item)
     }
 
@@ -68,9 +69,9 @@ class ItemAdapter(
 
 class CharacterViewHolder(
     private val binding: ItemCharacterBinding,
-    private val onClicked: (ListElement.CharacterItem) -> Unit
+    private val onClicked: (ListElement.Character) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
-    fun bind (item: ListElement.CharacterItem) {
+    fun bind (item: ListElement.Character) {
         with(binding) {
             image.load(item.imageURL)
             itemText.text = item.name

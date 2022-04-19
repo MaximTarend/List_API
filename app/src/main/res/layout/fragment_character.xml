@@ -16,15 +16,52 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:id="@+id/image" />
+        android:layout_height="wrap_content"
+        android:id="@+id/image"
+        android:adjustViewBounds="true"
+        android:padding="6dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/text"
+        android:id="@+id/name"
         android:textSize="20sp"
-        tools:text="text"
-        android:gravity="center_horizontal"/>
+        tools:text="name"
+        android:gravity="center_horizontal"
+        android:padding="12dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/species"
+        android:textSize="20sp"
+        tools:text="species"
+        android:padding="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/status"
+        android:textSize="20sp"
+        tools:text="status"
+        android:padding="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/gender"
+        android:textSize="20sp"
+        tools:text="gender"
+        android:padding="8dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/hair"
+        android:textSize="20sp"
+        tools:text="hair"
+        android:padding="8dp"/>
+
+
 
 </LinearLayout>

@@ -4,10 +4,13 @@ import com.google.gson.annotations.SerializedName
 
 sealed class ListElement {
 
-    data class CharacterItem(
+    data class Character(
         val id: Int = 111111,
         val name: String,
         val species: String,
+        val status: String,
+        val gender: String,
+        val hair: String,
         @SerializedName("img_url")
         val imageURL: String
     ): ListElement()
