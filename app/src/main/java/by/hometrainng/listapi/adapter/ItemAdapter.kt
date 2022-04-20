@@ -49,7 +49,6 @@ class ItemAdapter(
         characterViewHolder.bind(item)
     }
 
-
     companion object {
 
         private const val TYPE_CHARACTER = 0

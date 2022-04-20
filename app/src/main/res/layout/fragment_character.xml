@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/toolbar_character"
-        app:title="Character"
+        app:title="@string/character_toolbar_title"
         style="@style/Widget.MaterialComponents.Toolbar.PrimarySurface"/>
 
     <ImageView
@@ -19,48 +19,48 @@
         android:layout_height="wrap_content"
         android:id="@+id/image"
         android:adjustViewBounds="true"
-        android:padding="6dp"/>
+        android:padding="@dimen/character_image_padding"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/name"
-        android:textSize="20sp"
+        android:textSize="@dimen/character_text_size"
         tools:text="name"
         android:gravity="center_horizontal"
-        android:padding="12dp"/>
+        android:padding="@dimen/character_text_padding"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/species"
-        android:textSize="20sp"
+        android:textSize="@dimen/character_text_size"
         tools:text="species"
-        android:padding="8dp"/>
+        android:padding="@dimen/character_text_padding"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/status"
-        android:textSize="20sp"
+        android:textSize="@dimen/character_text_size"
         tools:text="status"
-        android:padding="8dp"/>
+        android:padding="@dimen/character_text_padding"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/gender"
-        android:textSize="20sp"
+        android:textSize="@dimen/character_text_size"
         tools:text="gender"
-        android:padding="8dp"/>
+        android:padding="@dimen/character_text_padding"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/hair"
-        android:textSize="20sp"
+        android:textSize="@dimen/character_text_size"
         tools:text="hair"
-        android:padding="8dp"/>
+        android:padding="@dimen/character_text_padding"/>
 
 
 

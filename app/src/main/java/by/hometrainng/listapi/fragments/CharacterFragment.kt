@@ -15,6 +15,7 @@ import by.hometrainng.listapi.retrofit.FinalSpaceService
 import coil.load
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 class CharacterFragment: Fragment() {
@@ -53,27 +54,40 @@ class CharacterFragment: Fragment() {
                             val character = response.body() ?: return
                             image.load(character.imageURL)
                             name.text = character.name
-                            species.text = "Species: " + character.species
-                            status.text = "Status: " + character.status
-                            gender.text = "Gender: " + character.gender
-                            hair.text = "Hair: " + character.hair
+                            species.text = SPECIES + character.species
+                            status.text = STATUS + character.status
+                            gender.text = GENDER + character.gender
+                            hair.text = HAIR + character.hair
 
                             currentCall = null
                         } else {
-                            Toast.makeText(context, "Response failure", Toast.LENGTH_SHORT).show()
+                            showToastMessage(HttpException(response).message())
                         }
                     }
                     override fun onFailure(call: Call<ListElement.Character>, t: Throwable) {
                         currentCall = null
-                        Toast.makeText(context, "Upload failure", Toast.LENGTH_SHORT).show()
+                        showToastMessage(UPLOAD_FAILURE)
                     }
                 })
             }
         }
     }
 
+    private fun showToastMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        const val SPECIES = "Species: "
+        const val GENDER = "Gender: "
+        const val STATUS = "Status: "
+        const val HAIR = "Hair: "
+        const val UPLOAD_FAILURE = "Upload failure"
+
     }
 }

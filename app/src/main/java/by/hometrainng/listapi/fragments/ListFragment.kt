@@ -12,13 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import by.hometrainng.listapi.adapter.ItemAdapter
-import by.hometrainng.listapi.addPaginationScrollListener
 import by.hometrainng.listapi.addSpaceDecoration
 import by.hometrainng.listapi.databinding.FragmentListBinding
 import by.hometrainng.listapi.model.ListElement
 import by.hometrainng.listapi.retrofit.FinalSpaceService
 import retrofit2.Call
 import retrofit2.Callback
+import retrofit2.HttpException
 import retrofit2.Response
 
 class ListFragment: Fragment() {
@@ -64,9 +64,8 @@ class ListFragment: Fragment() {
             recyclerView.layoutManager = layoutManager
 
             recyclerView.addSpaceDecoration(DECORATION_SPACE)
-            recyclerView.addPaginationScrollListener(layoutManager, ITEMS_TO_LOAD) {
+//           recyclerView.addPaginationScrollListener(layoutManager, ITEMS_TO_LOAD) {}
 
-            }
             if (currentCall == null) {
                 currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacters()
                 currentCall?.enqueue(object : Callback<List<ListElement.Character>> {
@@ -77,18 +76,22 @@ class ListFragment: Fragment() {
                         if (response.isSuccessful) {
                             val characters = response.body() ?: return
                             adapter.submitList(characters)
-                            currentCall = null
                         } else {
-                            Toast.makeText(context, "Response failure", Toast.LENGTH_SHORT).show()
+                            showToastMessage(HttpException(response).message())
                         }
+                        currentCall = null
                     }
                     override fun onFailure(call: Call<List<ListElement.Character>>, t: Throwable) {
                         currentCall = null
-                        Toast.makeText(context, "Upload failure", Toast.LENGTH_SHORT).show()
+                        showToastMessage(UPLOAD_FAILURE)
                     }
                 })
             }
         }
+    }
+
+    private fun showToastMessage(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
@@ -100,5 +103,6 @@ class ListFragment: Fragment() {
     companion object {
         private const val DECORATION_SPACE = 20
         private const val ITEMS_TO_LOAD = 20
+        const val UPLOAD_FAILURE = "Upload failure"
     }
 }

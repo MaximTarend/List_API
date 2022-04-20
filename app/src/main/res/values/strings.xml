@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">List+API</string>
+    <string name="character_toolbar_title">Character details</string>
+    <string name="list_toolbar_title">Final Space characters</string>
 </resources>
