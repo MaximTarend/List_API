@@ -35,7 +35,6 @@ class ListFragment: Fragment() {
         }
     }
 
-//    private var isLoading = false
     private var currentCall: Call<List<ListElement.Character>>? = null
 
     override fun onCreateView(
@@ -66,6 +65,7 @@ class ListFragment: Fragment() {
                 loadFinalSpaceCharacters()
             }
 //           recyclerView.addPaginationScrollListener(layoutManager, ITEMS_TO_LOAD) {}
+        // выбрал неподходящую API
         }
     }
 
@@ -79,8 +79,7 @@ class ListFragment: Fragment() {
                 ) {
                     if (response.isSuccessful) {
                         val characters = response.body() ?: return
-
-                        adapter.submitList(characters)
+                        adapter.submitList(characters.plus(ListElement.Loading))
                     } else {
                         showToastMessage(HttpException(response).message())
                     }
@@ -107,7 +106,7 @@ class ListFragment: Fragment() {
 
     companion object {
         private const val DECORATION_SPACE = 20
-        private const val ITEMS_TO_LOAD = 20
+//        private const val ITEMS_TO_LOAD = 20
         const val UPLOAD_FAILURE = "Upload failure"
     }
 }

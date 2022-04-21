@@ -1,5 +1,6 @@
 package by.hometrainng.listapi.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -40,36 +41,40 @@ class CharacterFragment: Fragment() {
 
         with (binding) {
             val characterId = args.characterId.toString()
-
             toolbarCharacter.setupWithNavController(findNavController())
+            loadCharacterDetails(characterId, binding)
+        }
+    }
 
-            if (currentCall == null) {
-                currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacterDetails(characterId)
-                currentCall?.enqueue(object : Callback<ListElement.Character> {
-                    override fun onResponse(
-                        call: Call<ListElement.Character>,
-                        response: Response<ListElement.Character>
-                    ) {
-                        if (response.isSuccessful) {
-                            val character = response.body() ?: return
+    private fun loadCharacterDetails (id: String, binding: FragmentCharacterBinding) {
+        if (currentCall == null) {
+            currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacterDetails(id)
+            currentCall?.enqueue(object : Callback<ListElement.Character> {
+                @SuppressLint("SetTextI18n")
+                override fun onResponse(
+                    call: Call<ListElement.Character>,
+                    response: Response<ListElement.Character>
+                ) {
+                    if (response.isSuccessful) {
+                        val character = response.body() ?: return
+                        with(binding) {
                             image.load(character.imageURL)
                             name.text = character.name
                             species.text = SPECIES + character.species
                             status.text = STATUS + character.status
                             gender.text = GENDER + character.gender
                             hair.text = HAIR + character.hair
-
-                            currentCall = null
-                        } else {
-                            showToastMessage(HttpException(response).message())
                         }
+                    } else {
+                        showToastMessage(HttpException(response).message())
                     }
-                    override fun onFailure(call: Call<ListElement.Character>, t: Throwable) {
-                        currentCall = null
-                        showToastMessage(UPLOAD_FAILURE)
-                    }
-                })
-            }
+                    currentCall = null
+                }
+                override fun onFailure(call: Call<ListElement.Character>, t: Throwable) {
+                    currentCall = null
+                    showToastMessage(UPLOAD_FAILURE)
+                }
+            })
         }
     }
 
@@ -88,6 +93,5 @@ class CharacterFragment: Fragment() {
         const val STATUS = "Status: "
         const val HAIR = "Hair: "
         const val UPLOAD_FAILURE = "Upload failure"
-
     }
 }
