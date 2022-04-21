@@ -51,42 +51,47 @@ class ListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val layoutManager = LinearLayoutManager(view.context) // default
         with (binding) {
+            recyclerView.layoutManager = layoutManager
+            recyclerView.adapter = adapter
+            loadFinalSpaceCharacters()
+            recyclerView.addSpaceDecoration(DECORATION_SPACE)
+
             swipeLayout.setOnRefreshListener {
                 Handler(Looper.getMainLooper()) // для заедержек есть другие способы реализации
                     .postDelayed(3000) {
                         swipeLayout.isRefreshing = false  // что бы кольцо обновления убиралось
                     }
+                loadFinalSpaceCharacters()
             }
-
-            val layoutManager = LinearLayoutManager(view.context) // default
-            recyclerView.adapter = adapter
-            recyclerView.layoutManager = layoutManager
-
-            recyclerView.addSpaceDecoration(DECORATION_SPACE)
 //           recyclerView.addPaginationScrollListener(layoutManager, ITEMS_TO_LOAD) {}
+        }
+    }
 
-            if (currentCall == null) {
-                currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacters()
-                currentCall?.enqueue(object : Callback<List<ListElement.Character>> {
-                    override fun onResponse(
-                        call: Call<List<ListElement.Character>>,
-                        response: Response<List<ListElement.Character>>
-                    ) {
-                        if (response.isSuccessful) {
-                            val characters = response.body() ?: return
-                            adapter.submitList(characters)
-                        } else {
-                            showToastMessage(HttpException(response).message())
-                        }
-                        currentCall = null
+    private fun loadFinalSpaceCharacters() {
+        if (currentCall == null) {
+            currentCall = FinalSpaceService.provideFinalSpaceApi().getCharacters()
+            currentCall?.enqueue(object : Callback<List<ListElement.Character>> {
+                override fun onResponse(
+                    call: Call<List<ListElement.Character>>,
+                    response: Response<List<ListElement.Character>>
+                ) {
+                    if (response.isSuccessful) {
+                        val characters = response.body() ?: return
+
+                        adapter.submitList(characters)
+                    } else {
+                        showToastMessage(HttpException(response).message())
                     }
-                    override fun onFailure(call: Call<List<ListElement.Character>>, t: Throwable) {
-                        currentCall = null
-                        showToastMessage(UPLOAD_FAILURE)
-                    }
-                })
-            }
+                    currentCall = null
+                }
+
+                override fun onFailure(call: Call<List<ListElement.Character>>, t: Throwable) {
+                    currentCall = null
+                    showToastMessage(UPLOAD_FAILURE)
+                }
+            })
         }
     }
 

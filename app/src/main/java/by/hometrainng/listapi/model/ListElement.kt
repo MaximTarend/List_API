@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 sealed class ListElement {
 
     data class Character(
-        val id: Int = 111111,
+        val id: Int = 0,
         val name: String,
         val species: String,
         val status: String,

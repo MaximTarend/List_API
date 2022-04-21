@@ -25,7 +25,7 @@
             android:layout_height="match_parent"
             android:id="@+id/recycler_view"
             android:clipToPadding="false"
-            android:padding="8dp"
+            android:padding="@dimen/recyclerView_padding"
             tools:listitem="@layout/item_character"
             tools:itemCount="20"/>
 
